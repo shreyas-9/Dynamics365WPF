@@ -114,9 +114,25 @@ namespace WpfTutorial
 
         private void retrieveAttributes(object sender, RoutedEventArgs e)
         {
-            foreach (var selectedEntity in selectedEntities)
+            selectedEntities = new List<string>();
+
+            foreach (var item in EntitiesListBox.Items)
             {
-                RetrieveAttributes(ctrl.CrmConnectionMgr, selectedEntity);
+                ListBoxItem listBoxItem = EntitiesListBox.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
+                if (listBoxItem != null)
+                {
+                    CheckBox checkBox = FindVisualChild<CheckBox>(listBoxItem);
+                    if (checkBox != null && checkBox.IsChecked == true)
+                    {
+                        selectedEntities.Add(item.ToString());
+                    }
+                }
+            }
+            if (currentEntityIndex < selectedEntities.Count)
+            {
+                RetrieveAttributes(ctrl.CrmConnectionMgr, selectedEntities[currentEntityIndex]);
+
+                currentEntityIndex++;
             }
         }
 
@@ -171,42 +187,18 @@ namespace WpfTutorial
         private void btnNext_Click(object sender, RoutedEventArgs e)
         {
             // Save the selected entities
-            selectedEntities = new List<string>();
-
-            foreach (var item in EntitiesListBox.Items)
-            {
-                ListBoxItem listBoxItem = EntitiesListBox.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
-                if (listBoxItem != null)
-                {
-                    CheckBox checkBox = FindVisualChild<CheckBox>(listBoxItem);
-                    if (checkBox != null && checkBox.IsChecked == true)
-                    {
-                        selectedEntities.Add(item.ToString());
-                    }
-                }
-            }
             EntitiesListBox.Visibility = Visibility.Collapsed;
-            if (currentEntityIndex < selectedEntities.Count)
-            {
-                RetrieveAttributes(ctrl.CrmConnectionMgr, selectedEntities[currentEntityIndex]);
-                currentEntityIndex++;
-            }
-            else
-            {
-                // Reset the index when all entities are processed
-                currentEntityIndex = 0;
 
-                // Optionally, hide or close the EntitiesListBox
-                EntitiesListBox.Visibility = Visibility.Collapsed;
 
-                // Perform further processing or navigation to the next step
-                // ...
-            }
+                //AttributesListBox.Visibility = Visibility.Collapsed;
+
 
 
             // Perform further processing or navigation to the next step
             // ...
         }
+
+        
 
         // Helper method to find a child of a specified type in the visual tree
         private T FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
