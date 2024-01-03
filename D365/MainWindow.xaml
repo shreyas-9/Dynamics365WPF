@@ -56,7 +56,10 @@
             <ListBox x:Name="EntitiesListBox" HorizontalAlignment="Left" VerticalAlignment="Center" SelectionMode="Extended" Grid.Column="1" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <CheckBox Content="{Binding}" IsChecked="{Binding IsSelected}" />
+						<StackPanel Orientation="Horizontal">
+							<CheckBox Name="CheckBoxZone" IsChecked="{Binding IsSelected}" />
+							<TextBlock Text="{Binding EntityName}" Margin="5,0,0,0"/>
+						</StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
