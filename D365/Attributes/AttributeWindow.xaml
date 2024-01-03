@@ -1,0 +1,15 @@
+﻿<!-- Update AttributesWindow.xaml -->
+<Window x:Class="WpfTutorial.AttributesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AttributesWindow" Height="300" Width="600">
+    <Grid>
+        <ListBox x:Name="AttributeListBox" HorizontalAlignment="Center" VerticalAlignment="Center"  Width="800">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox Content="{Binding AttributeName}" IsChecked="{Binding IsSelected}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</Window>

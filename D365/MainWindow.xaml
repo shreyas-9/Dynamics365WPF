@@ -1,0 +1,82 @@
+﻿<Window x:Class="WpfTutorial.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfTutorial"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition />
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+
+
+        <!--header code-->
+        <Rectangle Grid.Row="0" Fill="WhiteSmoke" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <!--<Menu>
+                <MenuItem Header="File">
+                    <MenuItem Header="New"/>
+                    <MenuItem Header="Open"/>
+                    <MenuItem Header="Save"/>
+                    <MenuItem Header="Save As"/>
+                    <MenuItem Header="Exit"/>
+                </MenuItem>
+            </Menu>-->
+            <Grid Grid.Row="0">
+                <Button Name="btnSignIn" Content="Connect" Margin="10,0,10,0" HorizontalAlignment="right" VerticalAlignment="Center" Width="80" Click="connectcrm"/>
+            </Grid>
+        </Grid>
+
+        <!--body code-->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="60*"/>
+                <ColumnDefinition Width="20*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <Button x:Name="btnRetrieveEntities" Content="Select Entities" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,60,0,0" Width="120" Height="30" Click="retrieveEntities"/>
+                <Button x:Name="btnRetrieveAttributes" Content="Select Attributes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,20,0,0" Width="120" Height="30" Click="retrieveAttributes"/>
+                <Button x:Name="btnOrderEntities" Content="Order Entities " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,20,0,0" Width="120" Height="30" Click="orderEntities"/>
+                <Button x:Name="btnMigrate" Content="Migrate" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,20,0,0" Width="120" Height="30" Click="migrate"/>
+            </StackPanel>
+            <Rectangle Grid.Column="1" Fill="DarkSlateGray" />
+            <Rectangle Grid.Column="2" Fill="DimGray" />
+            <!-- ContentControl for hosting user controls -->
+            <ListBox x:Name="EntitiesListBox"  Grid.Column="1" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Content="{Binding}" IsChecked="{Binding IsSelected}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <ListBox x:Name="AttributesListBox" HorizontalAlignment="Left" VerticalAlignment="Center" SelectionMode="Extended" Grid.Column="1" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Content="{Binding}" IsChecked="{Binding IsSelected}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+
+        <Grid Grid.Row="2">
+
+        </Grid>
+
+
+        <!--footer code-->
+        <Rectangle Grid.Row="2" Fill="LightCyan" />
+        <Button x:Name="btnNext" Content="Next" Margin="10,0,10,0" HorizontalAlignment="right" VerticalAlignment="Center" Width="80" Click="btnNext_Click" Grid.Row="2"/>
+    </Grid>
+</Window>
