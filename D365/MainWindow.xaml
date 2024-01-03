@@ -53,7 +53,7 @@
             <Rectangle Grid.Column="1" Fill="DarkSlateGray" />
             <Rectangle Grid.Column="2" Fill="DimGray" />
             <!-- ContentControl for hosting user controls -->
-            <ListBox x:Name="EntitiesListBox"  Grid.Column="1" >
+            <ListBox x:Name="EntitiesListBox" HorizontalAlignment="Left" VerticalAlignment="Center" SelectionMode="Extended" Grid.Column="1" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <CheckBox Content="{Binding}" IsChecked="{Binding IsSelected}" />
