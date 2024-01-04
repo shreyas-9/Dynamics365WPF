@@ -17,6 +17,8 @@ namespace WpfTutorial
     {
         private ExampleLoginForm ctrl;
         private List<string> selectedEntities = new List<string>(); // Class-level variable to store selected entities
+        private int currentEntityIndex = 0; // Class-level variable to track the current entity index
+
 
 
         public MainWindow()
@@ -134,6 +136,14 @@ namespace WpfTutorial
 
                 currentEntityIndex++;
             }
+            else
+            {
+                MessageBox.Show("No more entities to retrieve attributes for.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                if (currentEntityIndex == selectedEntities.Count)
+                {
+                    AttributesListBox.Visibility = Visibility.Collapsed;
+                }
+            }
         }
 
         private void RetrieveAttributes(CrmConnectionManager crmConnectionMgr , string entityName)
@@ -182,7 +192,6 @@ namespace WpfTutorial
         }
 
 
-        private int currentEntityIndex = 0; // Class-level variable to track the current entity index
 
         private void btnNext_Click(object sender, RoutedEventArgs e)
         {
@@ -190,12 +199,7 @@ namespace WpfTutorial
             EntitiesListBox.Visibility = Visibility.Collapsed;
 
 
-                //AttributesListBox.Visibility = Visibility.Collapsed;
 
-
-
-            // Perform further processing or navigation to the next step
-            // ...
         }
 
         

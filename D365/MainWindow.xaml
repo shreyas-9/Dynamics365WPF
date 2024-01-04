@@ -44,7 +44,7 @@
                 <ColumnDefinition Width="60*"/>
                 <ColumnDefinition Width="20*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel>
+            <StackPanel HorizontalAlignment="Center">
                 <Button x:Name="btnRetrieveEntities" Content="Select Entities" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,60,0,0" Width="120" Height="30" Click="retrieveEntities"/>
                 <Button x:Name="btnRetrieveAttributes" Content="Select Attributes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,20,0,0" Width="120" Height="30" Click="retrieveAttributes"/>
                 <Button x:Name="btnOrderEntities" Content="Order Entities " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,20,0,0" Width="120" Height="30" Click="orderEntities"/>
