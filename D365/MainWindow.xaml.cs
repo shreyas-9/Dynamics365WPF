@@ -17,7 +17,13 @@ namespace WpfTutorial
     {
         private ExampleLoginForm ctrl;
         private List<string> selectedEntities = new List<string>(); // Class-level variable to store selected entities
+        private List<string> selectedAttributes = new List<string>(); // Class-level variable to store selected entities
         private int currentEntityIndex = 0; // Class-level variable to track the current entity index
+        private Dictionary<string, List<string>> selectedEntitiesAttributes = new Dictionary<string, List<string>>(); // Dictionary to store selected entities and their attributes
+
+        bool camein = false;
+        private List<string> allCheckedAttributes = new List<string>();
+
 
 
 
@@ -116,6 +122,7 @@ namespace WpfTutorial
 
         private void retrieveAttributes(object sender, RoutedEventArgs e)
         {
+            camein = true;
             selectedEntities = new List<string>();
 
             foreach (var item in EntitiesListBox.Items)
@@ -130,23 +137,10 @@ namespace WpfTutorial
                     }
                 }
             }
-            if (currentEntityIndex < selectedEntities.Count)
-            {
-                RetrieveAttributes(ctrl.CrmConnectionMgr, selectedEntities[currentEntityIndex]);
-
-                currentEntityIndex++;
-            }
-            else
-            {
-                MessageBox.Show("No more entities to retrieve attributes for.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-                if (currentEntityIndex == selectedEntities.Count)
-                {
-                    AttributesListBox.Visibility = Visibility.Collapsed;
-                }
-            }
+            RetrieveAttributes(ctrl.CrmConnectionMgr, selectedEntities[currentEntityIndex]);
         }
 
-        private void RetrieveAttributes(CrmConnectionManager crmConnectionMgr , string entityName)
+        private void RetrieveAttributes(CrmConnectionManager crmConnectionMgr, string entityName)
         {
             var request = new RetrieveEntityRequest
             {
@@ -170,8 +164,10 @@ namespace WpfTutorial
                 }
 
                 // Show the attributes window for the current entity
-                //AttributesWindow attributeDisplay = new AttributesWindow(attributeNames);
-                //attributeDisplay.Show();
+                selectedEntitiesAttributes[entityName] = attributeNames;
+
+                // Add the attributes to the global list
+                //allCheckedAttributes.AddRange(attributeNames);
 
                 AttributesListBox.ItemsSource = attributeNames;
             }
@@ -181,9 +177,14 @@ namespace WpfTutorial
             }
         }
 
+
+
+
+
+
         private void orderEntities(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void migrate(object sender, RoutedEventArgs e)
@@ -197,6 +198,59 @@ namespace WpfTutorial
         {
             // Save the selected entities
             EntitiesListBox.Visibility = Visibility.Collapsed;
+            if (camein)
+            {
+                if (currentEntityIndex < selectedEntities.Count)
+                {
+                    // Close the current AttributesListBox
+                    AttributesListBox.Visibility = Visibility.Collapsed;
+
+                    string currentEntity = selectedEntities[currentEntityIndex];
+                    selectedAttributes = new List<string>();
+
+                    foreach (var item in AttributesListBox.Items)
+                    {
+                        ListBoxItem listBoxItem = AttributesListBox.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
+                        if (listBoxItem != null)
+                        {
+                            CheckBox checkBox = FindVisualChild<CheckBox>(listBoxItem);
+                            if (checkBox != null && checkBox.IsChecked == true)
+                            {
+                                selectedAttributes.Add(item.ToString());
+                            }
+                        }
+                    }
+
+                    // Save the selected attributes for the current entity
+                    if (selectedEntitiesAttributes.ContainsKey(currentEntity))
+                    {
+                        selectedEntitiesAttributes[currentEntity] = selectedAttributes;
+                    }
+                    else
+                    {
+                        selectedEntitiesAttributes.Add(currentEntity, selectedAttributes);
+                    }
+
+                    MessageBox.Show($"Selected Attributes for {currentEntity}: " + string.Join(", ", selectedAttributes), "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    // Increment the entity index for the next iteration
+                    currentEntityIndex++;
+
+                    if (currentEntityIndex < selectedEntities.Count)
+                    {
+                        // Retrieve and show attributes for the next entity
+                        RetrieveAttributes(ctrl.CrmConnectionMgr, selectedEntities[currentEntityIndex]);
+                        AttributesListBox.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        MessageBox.Show("No more entities to save attributes for.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                        // Optionally, hide or close the AttributesListBox
+                        AttributesListBox.Visibility = Visibility.Collapsed;
+                    }
+                }
+            }
+
 
 
 
@@ -226,5 +280,13 @@ namespace WpfTutorial
             return null;
         }
 
+
+
+
+        private void saveattributes(object sender, RoutedEventArgs e)
+        {
+            //saveattributename(selectedEntitiesAttributes);
+        }
     }
+
 }

@@ -68,6 +68,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            <Button x:Name="btnAdd" Content="saveattributes" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10,20,0,0" Width="120" Height="30" Grid.Column="1" Click="saveattributes"/>
         </Grid>
 
         <Grid Grid.Row="2">
